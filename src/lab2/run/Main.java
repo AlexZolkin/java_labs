@@ -1,4 +1,4 @@
-package lab2;
+package lab2.run;
 
 import lab2.controller.IMatrixCalc;
 import lab2.model.IMatrix;
