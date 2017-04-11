@@ -24,8 +24,10 @@ public class Sentence implements ISentence {
             return;
         IDelimiter delimiter = this.words.get(0).getDelimiter();
         if(delimiter != null){
-            this.words.get(this.words.size() - 1).setDelimiter(delimiter);
-            this.words.get(0).setDelimiter(null);
+            if(delimiter.getDelimiter() != null){
+                this.words.get(this.words.size() - 1).setDelimiter(delimiter);
+                this.words.get(0).setDelimiter(null);
+            }
         }
         IWord tmp = this.words.get(0);
         this.words.set(0, this.words.get(this.words.size() - 1));
@@ -37,8 +39,11 @@ public class Sentence implements ISentence {
         List<IWord> words = new ArrayList<>();
         String[] parts = sentence.toString().split(" ");
         for (String part : parts){
-            if(!Character.isLetter(part.charAt(part.length() - 1)))
-                words.add(IWord.create(new StringBuffer(part), new Character(part.charAt(part.length() - 1))));
+            if(part.equals(""))
+                continue;
+            if(!Character.isLetter(part.charAt(part.length() - 1)) &&
+                    !Character.isDigit(part.charAt(part.length() - 1)))
+                words.add(IWord.create(new StringBuffer(part.substring(0, part.length()-1)), part.charAt(part.length() - 1)));
             else
                 words.add(IWord.create(new StringBuffer(part)));
         }
@@ -52,7 +57,10 @@ public class Sentence implements ISentence {
             sentence.append(word.getWord());
             if(this.words.indexOf(word) < this.words.size() - 1)
                 sentence.append(" ");
+            else
+                sentence.append(".");
         }
+
         return sentence;
     }
 }

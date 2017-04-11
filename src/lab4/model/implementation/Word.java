@@ -17,7 +17,7 @@ public class Word implements IWord {
     public Word(StringBuffer word, Character delimiter) {
         this.word = word;
         this.delimiter = IDelimiter.create(delimiter);
-        this.letters = splitWord(this.word);
+        this.letters = splitWord(new StringBuffer(word.toString()));
     }
 
     @Override
@@ -36,7 +36,8 @@ public class Word implements IWord {
         for(ILetter letter : this.letters){
             word.append(letter.getLetter());
         }
-        word.append(this.delimiter == null ? "" : this.delimiter.getDelimiter());
+        if(this.delimiter != null)
+            word.append(this.delimiter.getDelimiter() == null ? "" : this.delimiter.getDelimiter());
         return word;
     }
 
