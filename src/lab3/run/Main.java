@@ -11,16 +11,19 @@ import java.io.InputStreamReader;
  */
 public class Main {
     public static void main(String[] args) {
-        StringBuffer text = null;
+        StringBuffer text = new StringBuffer(readText());
+        System.out.print("Text with first and last words in sentences replaced: ");
+        System.out.println(ITextTask.create().textReplace(text));
+    }
+    public static String readText(){
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             System.out.print("Enter your text: ");
-            text = new StringBuffer(reader.readLine());
+            return reader.readLine();
         }catch (IOException e){
             System.out.println("Error occurred: input error");
             System.exit(-1);
         }
-        System.out.print("Text with first and last words in sentences replaced: ");
-        System.out.println(ITextTask.create().textReplace(text));
+        return null;
     }
 }
