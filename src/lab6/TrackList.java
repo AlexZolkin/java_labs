@@ -7,6 +7,18 @@ import java.util.*;
  */
 public class TrackList<T> implements List<T>{
     private T[] array;
+
+    public TrackList(){
+        array = (T[]) new Object[0];
+    }
+    public TrackList(T element){
+        array = (T[]) new Object[1];
+        array[0] = element;
+    }
+    public TrackList(List<T> list){
+        array = list.toArray(array);
+    }
+
     @Override
     public int size() {
         if(array != null)
@@ -55,6 +67,7 @@ public class TrackList<T> implements List<T>{
             array[i] = this.array[i];
         }
         array[array.length-1] = t;
+        this.array = array;
         return true;
     }
 
@@ -76,17 +89,37 @@ public class TrackList<T> implements List<T>{
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return false;
+        for(Object o : c){
+            boolean flag = false;
+            for(T tmp : array){
+                if(tmp.equals((T)o))
+                    flag = true;
+            }
+            if(!flag)
+                return false;
+        }
+        return true;
     }
 
     @Override
     public boolean addAll(Collection<? extends T> c) {
-        return false;
+        T[] array = (T[]) new Object[this.array.length + c.size()];
+        for(int i=0;i<this.array.length;i++){
+            array[i] = this.array[i];
+        }
+        T[] tmpArray =  c.toArray(array);
+        for(int i=this.array.length;i<array.length;i++){
+            array[i] = tmpArray[i];
+        }
+        this.array = array;
+        return true;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
-        return false;
+        T[] array = (T[]) new Object[c.size() - index -1];
+        System.arraycopy(c.toArray(), index, array, 0, array.length);
+        return addAll(Arrays.asList(array));
     }
 
     @Override
@@ -101,37 +134,61 @@ public class TrackList<T> implements List<T>{
 
     @Override
     public void clear() {
-
+        array = (T[]) new Object[0];
     }
 
     @Override
-    public T get(int index) {
-        return null;
+    public T get(int index) throws IndexOutOfBoundsException{
+        return array[index];
     }
 
     @Override
-    public T set(int index, T element) {
-        return null;
+    public T set(int index, T element) throws IndexOutOfBoundsException {
+        array[index] = element;
+        return element;
     }
 
     @Override
     public void add(int index, T element) {
-
+        T[] array = (T[]) new Object[this.array.length+1];
+        for(int i=0;i<this.array.length;i++){
+            array[i] = this.array[i];
+        }
+        for(int i=index;i<array.length-1;i++){
+            array[i + 1] = array[i];
+        }
+        array[index] = element;
     }
 
     @Override
-    public T remove(int index) {
-        return null;
+    public T remove(int index) throws IndexOutOfBoundsException{
+        T result = array[index];
+        for(int i=index;i<array.length-1;i++){
+            array[i] = array[i+1];
+        }
+        T[] array = (T[]) new Object[this.array.length-1];
+        array = this.array.clone();
+        return result;
     }
 
     @Override
     public int indexOf(Object o) {
-        return 0;
+        T tmp = (T)o;
+        for(int i=0;i<array.length;i++){
+            if(array[i].equals(tmp))
+                return i;
+        }
+        return -1;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        T tmp = (T)o;
+        for(int i=array.length-1;i>-1;i--){
+            if(array[i].equals(tmp))
+                return i;
+        }
+        return -1;
     }
 
     @Override
@@ -146,7 +203,10 @@ public class TrackList<T> implements List<T>{
 
     @Override
     public List<T> subList(int fromIndex, int toIndex) {
-        return null;
+        T[] arr = (T[]) new Object[fromIndex + toIndex];
+        for(int i=fromIndex, k=0;i< toIndex;i++,k++)
+            arr[k] = array[i];
+        return new TrackList<T>(Arrays.asList(arr));
     }
 
 
