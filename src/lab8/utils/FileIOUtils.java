@@ -5,7 +5,6 @@ import lab6.TrackList;
 import lab8.exceptions.NoObjectsPresentException;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 
 /**
  * Created by Алексей on 24.04.2017.
@@ -18,7 +17,8 @@ public class FileIOUtils {
     }
 
     public String[] readStrings() throws IOException{
-        String[] lines
+        String[] lines;
+        return null;
     }
 
     public void writeStrings(String[] parsedStrings) throws NoObjectsPresentException, IOException{

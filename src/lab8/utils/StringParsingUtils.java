@@ -42,7 +42,7 @@ public class StringParsingUtils {
     }
 
     public Track[] parseObjectsArray(String[] lines) throws WrongStringTypeException{
-
+        return null;
     }
 
     public String format(String[] parsedStrings, Track[] tracks, TrackList<Track> trackList) {

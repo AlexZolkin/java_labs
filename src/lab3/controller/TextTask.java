@@ -13,7 +13,6 @@ public class TextTask implements ITextTask{
         StringBuffer result = new StringBuffer();
         List<String> sentences = Arrays.asList(text.toString().split("\\."));
         for(String sentence : sentences){
-            //List<String> words = Arrays.asList(sentence.split(" "));
             List<String> words = new ArrayList<>(Arrays.asList(sentence.split(" ")));
             if(words.get(0).equals(""))
                 words.remove(0);
